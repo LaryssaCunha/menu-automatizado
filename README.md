@@ -7,7 +7,8 @@
 1. Sobre o dataset:
       - Um dataset em csv com os seguintes dados:
             * Observações: Faturamento e despesas.
-            * Variáveis: Ano e mês, entre 2018 a 2023. 
+            * Variáveis: Ano e mês, entre 2018 a 2023.
+      - A pasta 'script1' tem o dataset utilizado, e dois arquivos .py necessários para fazer a integração do arquivo CSV com o SQL.
 
 2. Objetivo: Monitorar e atualizar registros integrado a um banco de dados SQLite com um menu automatizado de análises descritivas básicas. 
       O usuário pode:
