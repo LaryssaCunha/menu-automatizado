@@ -1,13 +1,15 @@
 import sqlite3
 import numpy as np
+import matplotlib.pyplot as plt
 
 def menu():     #Menu automatizado
     while True:
         print("\n- - - MENU LOJINHA - - -")
         print("[ 1 ] Adicionar registro ")
         print("[ 2 ] Exibir registros")
-        print("[ 3 ] Exibir lucro por ano e mês")
-        print("[ 0 ] Sair")
+        print("[ 3 ] Exibir lucro por mês/ano")
+        print("[ 4 ] Gerar gráfico da receita por ano")
+        print("[ 5 ] Sair")
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
@@ -28,8 +30,13 @@ def menu():     #Menu automatizado
                 print(f"Os lucros para o {mes:02}-{ano} é de {lucros}")
 
         elif opcao == "4":
+            ano = int(input("Ano: "))
+            gerar_grafico(ano)
+
+        elif opcao == "5":
             print("Encerrando o programa.")
             break
+
         else:
             print("Opção inválida! Tente novamente. ")
 
@@ -90,6 +97,42 @@ def calcular_metricas(ano, mes):
 #Calcular o lucro para os registros selecionados
     lucros = [faturamento - despesas for faturamento, despesas in registros]
     return lucros
+
+def gerar_grafico(ano):
+    conn = sqlite3.connect("loja.db")
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT mes, faturamento, despesas
+        FROM loja
+        WHERE ano = ?
+        ORDER BY mes
+    ''', (ano,))
+    registros = cursor.fetchall()
+    conn.close()
+
+    if not registros:
+        print("Nenhum registro encontrado para o ano especificado.")
+        return
     
+    meses = [registro[0] for registro in registros]
+    faturamentos = [registro[1] for registro in registros]
+    despesas = [registro[2] for registro in registros]
+    lucros = [ f - d for f, d in zip(faturamentos, despesas)]
+
+#Plotando o gráfico
+    plt.figure(figsize=(10, 6))
+    plt.plot(meses, faturamentos, label="Faturamento", marker="o", color="blue")
+    plt.plot(meses, despesas, label="Despesas", marker="o", color="red")
+    plt.plot(meses, lucros, label="Lucro", marker="o", color="green")
+
+    plt.title(f"Receita geral do ano de {ano}")
+    plt.xlabel("Meses")
+    plt.ylabel("Valores")
+    plt.legend()
+    plt.grid(True)
+    plt.xticks(range(1, 13)) #Exibir todos os meses no eixo x
+    plt.show()
+
 #Executar menu
 menu()
