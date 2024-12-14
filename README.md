@@ -1,6 +1,6 @@
 # Menu - Lojinha
  ## Descrição Geral:
-É um sistema de controle e registros financeiros para uma loja. Foi feito em pytho, utilizando as bibliotecas sqlite3 para o banco de dados, numpy para os cálculos métricos e matplotlib para a visualização dos gráficos.
+É um sistema de controle e registros financeiros para uma loja. Foi feito em linguagem Python, utilizando as bibliotecas sqlite3 para o banco de dados, numpy para os cálculos métricos e matplotlib para a visualização dos gráficos.
 
 ## ETAPAS DO PROJETO
 
